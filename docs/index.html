@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Survey on Compositional 3D Indoor Scene Generation">
+  <meta name="keywords" content="Survey, compositional, 3D, indoor, scene generation, scene synthesis">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Survey on Compositional 3D Indoor Scene Generation</title>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3KZTQ447Z9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-3KZTQ447Z9');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <!-- <link rel="icon" href="./static/images/favicon.svg"> -->
+
+  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <script src="./static/js/paper-table.js"></script>
+</head>
+
+<body>
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-2 publication-title">
+              Survey on Compositional 3D Indoor Scene Generation
+            </h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://iv-t.github.io/">Hou In Ivan Tam</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://houip.github.io/">Hou In Derek Pun</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://atwang16.github.io/">Austin T. Wang</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://sun-xh.github.io/">Xiaohao Sun</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://qiruiw.github.io/">Qirui Wu</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://hanhung.github.io/">Han-Hung Lee</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                  <a href="https://angelxuanchang.github.io/">Angel X. Chang</a><sup>1,2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://msavva.github.io/">Manolis Savva</a><sup>1</sup>
+              </span>
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>1</sup>Simon Fraser University,</span>
+              <span class="author-block"><sup>2</sup>Alberta Machine Intelligence Institute (Amii)</span>
+            </div>
+            <!-- <div class="is-size-5 publication-authors">
+              <span class="author-block" style="color:#a771ac"></span>
+            </div> -->
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- PDF Link. -->
+                <!-- <span class="link-block">
+                  <a href=""
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span> -->
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/2503.14756" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+                <!-- Video Link. -->
+                <!-- <span class="link-block">
+                  <a href="" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                    </span>
+                    <span>Video</span>
+                  </a>
+                </span> -->
+                <!-- Code Link. -->
+                <!-- <span class="link-block">
+                  <a href="https://github.com/3dlg-hcvc/SceneEval" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code (Released!)</span>
+                  </a>
+                </span> -->
+                <!-- Dataset Link. -->
+                <!-- <span class="link-block">
+                <a href="https://github.com/3dlg-hcvc/SceneEval/releases" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                  </a>
+                </span> -->
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Abstract -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+
+        <div class="column is-full-width is-large">
+          <div class="column has-text-centered">
+
+            <div class="center-container">
+              <h2 class="title is-3">Abstract</h2>
+            </div>
+
+            <div class="content has-text-justified mt-4">
+              <p>
+                Compositional 3D indoor scene generation is a long-standing problem and a rapidly evolving area of research spanning computer graphics, 3D computer vision, and machine learning.
+                The goal is to model the complex relationships among objects and their spatial and functional arrangements within a scene, enabling the creation of rich, diverse, and useful 3D environments for a wide range of applications.
+                This survey offers a comprehensive overview of the state of the art, formulating a unifying framework for analyzing scene generation systems and systematically categorizing existing methods according to their approaches to key components.
+                We review recent progress, analyze the strengths and limitations of different paradigms, and highlight both major advances and open challenges.
+                Our survey aims to serve as a resource for researchers and practitioners, offering insights into the current landscape and inspiring new ideas for future work in this area.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blueprint -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+
+        <div class="column is-full-width is-large">
+          <div class="column has-text-centered">
+
+            <div class="center-container">
+              <h2 class="title is-3">Scene Generation System Blueprint</h2>
+            </div>
+
+            <div class="content has-text-justified mt-4">
+              <p>
+                Overview of the key components of a 3D scene generation method.
+                Given an input condition, and prior knowledge about how objects are arranged, compositional systems typically first generate a coarse layout of the scene, determine and refine object placements, obtain corresponding objects, and combine them with architectural elements to produce the output 3D scene.
+                As part of this process, an important design choice is the scene representation.
+              </p>
+              <figure class="image">
+                <img src="./static/images/blueprint.png" alt="Scene Generation System Blueprint" style="width: 100%; max-width: 1000px;">
+              </figure>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blueprint choices -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+
+        <div class="column is-full-width is-large">
+          <div class="column has-text-centered">
+
+            <div class="center-container">
+              <h2 class="title is-3">Implementation Choices</h2>
+            </div>
+
+            <div class="content has-text-justified mt-4">
+              <p>
+                Blueprint illustrating components of compositional 3D scene generation systems, and implementation choices made by prior work for each component.
+                Parentheses show which section discusses design choices for each component.
+              </p>
+              <figure class="image">
+                <img src="./static/images/blueprint_choices.png" alt="Implementation Choices for Blueprint" style="width: 100%">
+              </figure>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>  
+
+  <!-- Paper List -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <div class="content has-text-justified">
+            <div class="center-container">
+              <h3 class="title is-3">Paper List</h3>
+            </div>
+            <p class="mb-4">
+              Below is an interactive table of papers on compositional 3D indoor scene generation. 
+              You can sort by any column by clicking the sort icon, and filter papers by clicking the "Filter" button in each column header.
+            </p>
+            <div id="paper-table-container">
+              <!-- Table will be dynamically generated here -->
+              <div class="has-text-centered">
+                <p>Loading papers...</p>
+              </div>
+            </div>
+          </div>
+        </div> 
+      </div>  
+    </div> 
+  </section>
+
+  <!-- Citation -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>@article{tam2025survey,
+    title = {Survey on Compositional {3D} Indoor Scene Generation},
+    author = {Tam, Hou In Ivan and Pun, Hou In Derek and Wang, Austin T. and Sun, Xiaohao and Wu, Qirui and Lee, Han-Hung and Chang, Angel X. and Savva, Manolis},
+    year = {2025},
+    eprint = {????.?????},
+    archivePrefix = {arXiv}
+}</code></pre>
+    </div>
+  </section>
+
+  <!-- Acknowledgements -->
+  <section class="section" id="Acknowledgements">
+    <div class="container is-max-desktop content">
+      <h2 class="title">Acknowledgements</h2>
+      <p>
+        ?
+        <!-- This work was funded in part by the Sony Research Award Program, a CIFAR AI Chair, a Canada Research Chair, NSERC Discovery Grants, and enabled by support from the <a href="https://alliancecan.ca/">Digital Research Alliance of Canada</a>.
+        We thank Nao Yamato, Yotaro Shimose, and other members on the Sony team for their feedback.
+        We also thank Qirui Wu, Xiaohao Sun, and Han-Hung Lee for helpful discussions. -->
+      </p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        <a class="icon-link" href="">
+          <i class="fas fa-file-pdf"></i>
+        </a>
+        <a class="icon-link" href="" class="external-link" disabled>
+          <i class="fab fa-github"></i>
+        </a>
+      </div>
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              This website is licensed under a <a rel="license"
+                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+                Commons Attribution-ShareAlike 4.0 International License</a>.
+              The template is borrowed from <a href="https://nerfies.github.io/">Nerfies</a>.
+              Please check out their great work if you find it helpful as well.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>

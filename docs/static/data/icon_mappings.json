@@ -1,0 +1,718 @@
+{
+  "_config": {
+    "icon_base_path": "fig/icons/"
+  },
+  "input_conditioning": {
+    "_replace": {
+      "ObjectCategories": "ObjectInfo",
+      "ObjectList": "ObjectInfo",
+      "#ObjsToAdd": "ObjectInfo",
+      "FunctionalZones": "Constraints"
+    },
+    "RoomType": {
+      "command": "\\inputroomtype",
+      "path": "input_roomtype.png",
+      "legend": "Room Type"
+    },
+    "FloorShape": {
+      "command": "\\inputfloorshape", 
+      "path": "input_floorshape.png",
+      "legend": "Floor Shape"
+    },
+    "WindowsDoors": {
+      "command": "\\inputwindowsdoors",
+      "path": "input_windowsdoors.png",
+      "legend": "Window/Door Location"
+    },
+    "FreeText": {
+      "command": "\\inputtextfree",
+      "path": "input_textfree.png",
+      "legend": "Free-form Text"
+    },
+    "StructureText": {
+      "command": "\\inputtextfixed",
+      "path": "input_textfixed.png",
+      "legend": "Structured Text"
+    },
+    "SceneGraph": {
+      "command": "\\inputscenegraph",
+      "path": "_common_scenegraph.png",
+      "legend": "Scene Graph"
+    },
+    "Image": {
+      "command": "\\inputimage",
+      "path": "_common_image.png",
+      "legend": "Image"
+    },
+    "Sketch": {
+      "command": "\\inputsketch",
+      "path": "_common_sketch.png",
+      "legend": "Sketch"
+    },
+    "Video": {
+      "command": "\\inputvideo",
+      "path": "_common_video.png",
+      "legend": "Video"
+    },
+    "Scan": {
+      "command": "\\inputscan",
+      "path": "input_scan.png",
+      "legend": "Scan"
+    },
+    "2DLayout": {
+      "command": "\\inputtwodlayout",
+      "path": "",
+      "legend": "2D Layout"
+    },
+    "ObjectList": {
+      "command": "\\inputobjectlist",
+      "path": "",
+      "legend": "Object List"
+    },
+    "PartialScene": {
+      "command": "\\inputpartialscene",
+      "path": "input_partialscene.png",
+      "legend": "Partial Scene"
+    },
+    "CompleteScene": {
+      "command": "\\inputcompletescene",
+      "path": "input_completescene.png",
+      "legend": "Complete Scene"
+    },
+    "SeparateModel": {
+      "command": "\\inputseparatemodel",
+      "path": "input_separatemodel.png",
+      "legend": "Separate Model"
+    },
+    "HumanMotion": {
+      "command": "\\inputhumanmotion",
+      "path": "input_humanmotion.png",
+      "legend": "Human Motion"
+    },
+    "Constraints": {
+      "command": "\\inputconstraints",
+      "path": "_common_constraint.png",
+      "legend": "Constraint"
+    },
+    "Functions": {
+      "command": "\\inputfunctions",
+      "path": "",
+      "legend": "Room Function"
+    },
+    "FunctionalZones": {
+      "command": "\\inputfunctionalzones",
+      "path": "",
+      "legend": "Functional Zone"
+    },
+    "SingleFurniture": {
+      "command": "\\inputsinglefurniture",
+      "path": "",
+      "legend": "Single Furniture"
+    },
+    "UserInteraction": {
+      "command": "\\inputuserinteraction",
+      "path": "input_userinteraction.png",
+      "legend": "User Interaction"
+    },
+    "#ObjsToAdd": {
+      "command": "\\inputobjstoadd",
+      "path": "",
+      "legend": "Num Objects to Add"
+    },
+    "ObjectCategories": {
+      "command": "\\inputobjectcategories",
+      "path": "",
+      "legend": "Object Categories"
+    },
+    "ObjectInfo": {
+      "command": "\\inputobjectinfo",
+      "path": "input_objectinfo.png",
+      "legend": "Object Information"
+    },
+    "N/A": {
+      "command": "\\inputna",
+      "path": "",
+      "legend": "N/A"
+    }
+  },
+  "scene_representation": {
+    "_replace": {},
+    "Sequence": {
+      "command": "\\representationsequence",
+      "path": "representation_sequence.png",
+      "legend": "Sequence"
+    },
+    "SceneGraph": {
+      "command": "\\representationscenegraph",
+      "path": "_common_scenegraph.png",
+      "legend": "Scene Graph"
+    },
+    "StructuredLang": {
+      "command": "\\representationstructuredlang",
+      "path": "representation_structuredlanguage.png",
+      "legend": "Structured Language"
+    },
+    "Image": {
+      "command": "\\representationimage",
+      "path": "_common_image.png",
+      "legend": "Image"
+    },
+    "Voxel": {
+      "command": "\\representationvoxel",
+      "path": "representation_voxel.png",
+      "legend": "Voxel"
+    },
+    "3DScene": {
+      "command": "\\representationthreedscene",
+      "path": "_common_3dscene.png",
+      "legend": "3D Scene"
+    },
+    "PointCloud": {
+      "command": "\\representationpointcloud",
+      "path": "representation_pointcloud.png",
+      "legend": "Point Cloud"
+    },
+    "Triplane": {
+      "command": "\\representationtriplane",
+      "path": "",
+      "legend": "Triplane"
+    },
+    "PCD": {
+      "command": "\\representationpcd",
+      "path": "",
+      "legend": "PCD"
+    },
+    "InteractionBisectorSurface": {
+      "command": "\\representationibs",
+      "path": "",
+      "legend": "Interaction Bisector Surface"
+    },
+    "ActivityMap+ColumnRepresentation": {
+      "command": "\\representationactivitymapcolumn",
+      "path": "",
+      "legend": "Activity Map & Column Representation"
+    },
+    "WallGridStructure": {
+      "command": "\\representationwallgrid",
+      "path": "",
+      "legend": "Wall Grid Structure"
+    },
+    "Video": {
+      "command": "\\representationvideo",
+      "path": "_common_video.png",
+      "legend": "Video"
+    }
+  },
+  "knowledge_base": {
+    "_replace": {},
+    "Human": {
+      "command": "\\knowledgehuman",
+      "path": "_common_human.png",
+      "legend": "Human"
+    },
+    "3DScenes": {
+      "command": "\\knowledgethreedscenes",
+      "path": "_common_3dscene.png",
+      "legend": "3D Scene"
+    },
+    "Image": {
+      "command": "\\knowledgeimages",
+      "path": "_common_image.png",
+      "legend": "2D Image"
+    },
+    "LLM": {
+      "command": "\\knowledgellm",
+      "path": "_common_llm.png",
+      "legend": "LLM/VLM"
+    },
+    "ImageGen": {
+      "command": "\\knowledgeimagegen",
+      "path": "_common_imagegen.png",
+      "legend": "Image Generation Model"
+    },
+    "VideoGen": {
+      "command": "\\knowledgevideogen",
+      "path": "knowledge_videogen.png",
+      "legend": "Video Generation Model"
+    },
+    "VLM": {
+      "command": "\\knowledgevlm",
+      "path": "_common_llm.png",
+      "legend": "LLM/VLM"
+    },
+    "3DObject": {
+      "command": "\\knowledgethreedobject",
+      "path": "knowledge_3dobject.png",
+      "legend": "3D Object"
+    },
+    "Video": {
+      "command": "\\knowledgevideo",
+      "path": "_common_video.png",
+      "legend": "Video"
+    }
+  },
+  "layout_generation": {
+    "_replace": {},
+    "Rules": {
+      "command": "\\generationrules",
+      "path": "generation_rule.png",
+      "legend": "Rule"
+    },
+    "Constraints": {
+      "command": "\\generationconstraints",
+      "path": "_common_constraint.png",
+      "legend": "Constraint"
+    },
+    "Stats": {
+      "command": "\\generationstatistics",
+      "path": "generation_statistics.png",
+      "legend": "Statistics"
+    },
+    "Learned": {
+      "command": "\\generationlearned",
+      "path": "generation_learned.png",
+      "legend": "Learned"
+    },
+    "LLM": {
+      "command": "\\generationllm",
+      "path": "_common_llm.png",
+      "legend": "LLM/VLM"
+    },
+    "Human": {
+      "command": "\\generationhuman",
+      "path": "_common_human.png",
+      "legend": "Human"
+    },
+    "Reconstruction": {
+      "command": "\\generationreconstruction",
+      "path": "generation_reconstruction.png",
+      "legend": "Reconstruction"
+    },
+    "ImageGen": {
+      "command": "\\generationimagegen",
+      "path": "_common_imagegen.png",
+      "legend": "Image Generation Model"
+    },
+    "VLM": {
+      "command": "\\generationvlm",
+      "path": "_common_llm.png",
+      "legend": "LLM/VLM"
+    }
+  },
+  "generation_extra": {
+    "_replace": {},
+    "VAE": {
+      "command": "\\genextravae",
+      "path": "genextra_vae.png",
+      "legend": "Variational Autoencoder",
+      "alt_text": "VAE"
+    },
+    "GAN": {
+      "command": "\\genextragan",
+      "path": "genextra_gan.png",
+      "legend": "Generative Adversarial Network",
+      "alt_text": "GAN"
+    },
+    "CNN": {
+      "command": "\\genextracnn",
+      "path": "genextra_cnn.png",
+      "legend": "Convolutional Neural Network",
+      "alt_text": "CNN"
+    },
+    "Autoregressive": {
+      "command": "\\genextraautoregressive",
+      "path": "genextra_autoregressive.png",
+      "legend": "Autoregressive",
+      "alt_text": "AR"
+    },
+    "Diffusion": {
+      "command": "\\genextradiffusion",
+      "path": "genextra_diffusion.png",
+      "legend": "Diffusion",
+      "alt_text": "DF"
+    },
+    "BayesNet": {
+      "command": "\\genextrabayesian",
+      "path": "genextra_bayesnet.png",
+      "legend": "Bayesian Network",
+      "alt_text": "BN"
+    },
+    "GMM": {
+      "command": "\\genextragaussmixture",
+      "path": "genextra_gmm.png",
+      "legend": "Gaussian Mixture Model",
+      "alt_text": "GMM"
+    },
+    "Gibbs": {
+      "command": "\\genextragibbs",
+      "path": "genextra_gibbs.png",
+      "legend": "Gibbs Distribution",
+      "alt_text": "GB"
+    },
+    "KDE": {
+      "command": "\\genextrakerneldensity",
+      "path": "genextra_kde.png",
+      "legend": "Kernel Density Estimation",
+      "alt_text": "KDE"
+    },
+    "DPMM": {
+      "command": "\\genextradpmm",
+      "path": "genextra_dpmm.png",
+      "legend": "Dirichlet Process Mixture Model",
+      "alt_text": "DPMM"
+    },
+    "MarkovChain": {
+      "command": "\\genextramarkovchain",
+      "path": "genextra_markovchain.png",
+      "legend": "Markov Chain",
+      "alt_text": "MC"
+    },
+    "Histogram": {
+        "command": "\\genextrahistogram",
+        "path": "genextra_histogram.png",
+        "legend": "Histogram",
+        "alt_text": "HG"
+    },
+    "KMean": {
+      "command": "\\genextrakmean",
+      "path": "genextra_kmean.png",
+      "legend": "K-Means Clustering",
+      "alt_text": "KM"
+    },
+    "GaussianDist": {
+      "command": "\\genextragaussian",
+      "path": "genextra_gaussian.png",
+      "legend": "Gaussian Distribution",
+      "alt_text": "GS"
+    },
+    "VonMisesDist": {
+      "command": "\\genextravonmises",
+      "path": "genextra_vonmises.png",
+      "legend": "Von Mises Distribution",
+      "alt_text": "VM"
+    },
+    "GraphKernel": {
+      "command": "\\genextragraphkernel",
+      "path": "genextra_graphkernel.png",
+      "legend": "Graph Kernel",
+      "alt_text": "GK"
+    },
+    "RL": {
+      "command": "\\genextrarl",
+      "path": "genextra_rl.png",
+      "legend": "Reinforcement Learning",
+      "alt_text": "RL"
+    },
+    "HeuristicSearch": {
+      "command": "\\genextraheuristicsearch",
+      "path": "genextra_heuristicsearch.png",
+      "legend": "Heuristic Search",
+      "alt_text": "HS"
+    },
+    "Sampling": {
+      "command": "\\genextrasampling",
+      "path": "genextra_sampling.png",
+      "legend": "Sampling",
+      "alt_text": "SP"
+    },
+    "GradientOptimization": {
+      "command": "\\genextragradientoptimization",
+      "path": "genextra_gradient.png",
+      "legend": "Gradient Optimization",
+      "alt_text": "GO"
+    },
+    "RejectionSampling": {
+      "command": "\\genextrarejectionsampling",
+      "path": "genextra_rejectionsampling.png",
+      "legend": "Rejection Sampling",
+      "alt_text": "RJS"
+    },
+    "IterativeLocalSearch": {
+      "command": "\\genextraiterativelocalsearch",
+      "path": "genextra_ils.png",
+      "legend": "Iterative Local Search",
+      "alt_text": "ILS"
+    },
+    "BeamSearch": {
+      "command": "\\genextrabeamsearch",
+      "path": "genextra_beamsearch.png",
+      "legend": "Beam Search",
+      "alt_text": "BS"
+    },
+    "MCMC": {
+      "command": "\\genextranmcmc",
+      "path": "genextra_mcmc.png",
+      "legend": "Markov Chain Monte Carlo",
+      "alt_text": "MCMC"
+    },
+    "Metropolis": {
+      "command": "\\genextrametropolis",
+      "path": "genextra_metropolis.png",
+      "legend": "Metropolis Algorithm",
+      "alt_text": "MA"
+    },
+    "Metropolis-Hastings": {
+        "command": "\\genextrametropolishastings",
+        "path": "genextra_mh.png",
+        "legend": "Metropolis-Hastings Algorithm",
+        "alt_text": "MH"
+    },
+    "SimulatedAnnealing": {
+        "command": "\\genextrasimulatedannealing",
+        "path": "genextra_sa.png",
+        "legend": "Simulated Annealing",
+        "alt_text": "SA"
+    },
+    "AdaptiveSA": {
+      "command": "\\genextraadaptivesa",
+      "path": "genextra_adaptivesa.png",
+      "legend": "Adaptive Simulated Annealing",
+      "alt_text": "ASA"
+    },
+    "PositionBasedDynamics": {
+      "command": "\\genextrapbd",
+      "path": "genextra_pbd.png",
+      "legend": "Position Based Dynamics",
+      "alt_text": "PBD"
+    },
+    "GreedyCostMinimization": {
+      "command": "\\genextragreedy",
+      "path": "genextra_greedy.png",
+      "legend": "Greedy Algorithm",
+      "alt_text": "GD"
+    },
+    "GeneticAlgorithm": {
+      "command": "\\genextragenetic",
+      "path": "genextra_genetic.png",
+      "legend": "Genetic Algorithm",
+      "alt_text": "GN"
+    },
+    "HDFS": {
+      "command": "\\genextrahdfs",
+      "path": "genextra_hdfs.png",
+      "legend": "Heuristic Depth-First Search",
+      "alt_text": "HDFS"
+    },
+    "DFS": {
+      "command": "\\genextradfs",
+      "path": "genextra_dfs.png",
+      "legend": "Depth-First Search",
+      "alt_text": "DFS"
+    },
+    "LARJ-MCMC": {
+      "command": "\\genextralarjmcmc",
+      "path": "genextra_larjmcmc.png",
+      "legend": "LARJ-MCMC",
+      "alt_text": "LARJ-MCMC"
+    },
+    "HillClimbing": {
+      "command": "\\genextrahillclimbing",
+      "path": "genextra_hillclimbing.png",
+      "legend": "Hill Climbing",
+      "alt_text": "HC"
+    },
+    "CoT": {
+      "command": "\\genextracot",
+      "path": "genextra_cot.png",
+      "legend": "Chain of Thought",
+      "alt_text": "CT"
+    },
+    "SFT": {
+      "command": "\\genextrasft",
+      "path": "genextra_sft.png",
+      "legend": "Supervised Fine-Tuning",
+      "alt_text": "SFT"
+    },
+    "DPO": {
+      "command": "\\genextradpo",
+      "path": "genextra_dpo.png",
+      "legend": "Direct Preference Optimization",
+      "alt_text": "DPO"
+    },
+    "MinkowskiSum": {
+      "command": "\\genextraminkowskisum",
+      "path": "genextra_minkowskisum.png",
+      "legend": "Minkowski Sum",
+      "alt_text": "MS"
+    },
+    "CLPSolver": {
+      "command": "\\genextraclpsolver",
+      "path": "genextra_clpsolver.png",
+      "legend": "CLP Solver",
+      "alt_text": "CLP"
+    },
+    "TopicModel": {
+      "command": "\\genextratopicmodel",
+      "path": "genextra_topicmodel.png",
+      "legend": "Topic Model",
+      "alt_text": "TM"
+    },
+    "Backtracking": {
+      "command": "\\genextrabacktracking",
+      "path": "genextra_backtracking.png",
+      "legend": "Backtracking",
+      "alt_text": "BT"
+    },
+    "SLSQP": {
+      "command": "\\genextraslsqp",
+      "path": "genextra_slsqp.png",
+      "legend": "SLSQP",
+      "alt_text": "SLSQP"
+    },
+    "LDM": {
+      "command": "\\genextraldm",
+      "path": "genextra_ldm.png",
+      "legend": "Latent Diffusion Model",
+      "alt_text": "LDM"
+    },
+    "MCTS": {
+      "command": "\\genextramcts",
+      "path": "genextra_mcts.png",
+      "legend": "Monte Carlo Tree Search",
+      "alt_text": "MCTS"
+    },
+    "N/A": {
+      "command": "\\genextrana",
+      "path": "",
+      "legend": "N/A"
+    }
+  },
+  "placement_refinement": {
+    "_replace": {},
+    "N/A": {
+      "command": "\\placementna",
+      "path": "",
+      "legend": "N/A"
+    },
+    "Collision": {
+      "command": "\\placementcollision",
+      "path": "placement_collision.png",
+      "legend": "Collision Solving"
+    },
+    "SDS": {
+      "command": "\\placementsds",
+      "path": "placement_sds.png",
+      "legend": "Score Distillation Sampling"
+    },
+    "TextGuidance": {
+      "command": "\\placementtextguidance",
+      "path": "",
+      "legend": "Text Guidance"
+    },
+    "PhysicsSimulation": {
+      "command": "\\placementphysics",
+      "path": "placement_physics.png",
+      "legend": "Physics Simulation"
+    },
+    "RayCast": {
+      "command": "\\placementraycast",
+      "path": "placement_raycast.png",
+      "legend": "Ray Casting"
+    },
+    "Perturbation": {
+      "command": "\\placementperturbation",
+      "path": "",
+      "legend": "Perturbation"
+    },
+    "SupportRegion": {
+      "command": "\\placementsupport",
+      "path": "placement_support.png",
+      "legend": "Support Region Extraction"
+    },
+    "ImageCorrespondence": {
+      "command": "\\placementimagecorrespondence",
+      "path": "placement_imagecorrespondence.png",
+      "legend": "Image Correspondence"
+    },
+    "Projection": {
+      "command": "\\placementprojection",
+      "path": "placement_projection.png",
+      "legend": "Projection"
+    }
+  },
+  "obj_shape": {
+    "_replace": {},
+    "Retrieval": {
+      "command": "\\objectretrieval",
+      "path": "object_retrieval.png",
+      "legend": "Retrieval"
+    },
+    "Generation": {
+      "command": "\\objectgeneration",
+      "path": "object_generation.png",
+      "legend": "Generation"
+    },
+    "N/A": {
+      "command": "\\objectna",
+      "path": "",
+      "legend": "N/A"
+    }
+  },
+  "retrieval_extra": {
+    "_replace": {},
+    "Category": {
+      "command": "\\retriextracategory",
+      "path": "retriextra_category.png",
+      "legend": "Category",
+      "alt_text": "CT"
+    },
+    "Dimensions": {
+      "command": "\\retriextradimensions",
+      "path": "retriextra_dimensions.png",
+      "legend": "Dimensions",
+      "alt_text": "DM"
+    },
+    "ShapeCode": {
+      "command": "\\retriextrashapecode",
+      "path": "retriextra_shapecode.png",
+      "legend": "Shape Code",
+      "alt_text": "SC"
+    },
+    "RandomSample": {
+      "command": "\\retriextrarandomsample",
+      "path": "retriextra_randomsample.png",
+      "legend": "Random Sample",
+      "alt_text": "RS"
+    },
+    "Description": {
+      "command": "\\retriextradescription",
+      "path": "retriextra_description.png",
+      "legend": "Description",
+      "alt_text": "DC"
+    },
+    "Geometry": {
+      "command": "\\retriextrageometry",
+      "path": "retriextra_geometry.png",
+      "legend": "Geometry",
+      "alt_text": "GT"
+    },
+    "Embeddings": {
+      "command": "\\retriextraembeddings",
+      "path": "retriextra_embeddings.png",
+      "legend": "Embeddings",
+      "alt_text": "EB"
+    },
+    "Sketch": {
+      "command": "\\retriextrasketch",
+      "path": "retriextra_sketch.png",
+      "legend": "Sketch",
+      "alt_text": "SK"
+    },
+    "VLM": {
+      "command": "\\retriextravlm",
+      "path": "retriextra_vlm.png",
+      "legend": "Vision-Language Model",
+      "alt_text": "VLM"
+    },
+    "Unknown": {
+      "command": "\\retriextraunknown",
+      "path": "",
+      "legend": "Unknown"
+    },
+    "N/A": {
+      "command": "\\retriextrana",
+      "path": "",
+      "legend": "N/A"
+    }
+  }
+}
