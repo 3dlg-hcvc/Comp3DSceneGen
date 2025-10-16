@@ -326,6 +326,77 @@ class PaperTable {
     this.applyFilters();
   }
 
+  // Filter the search results in the filter popup
+  filterSearchResults() {
+    const searchInput = document.getElementById("filter-search-input");
+    if (!searchInput) return;
+
+    const searchTerm = searchInput.value.toLowerCase();
+    const filterLabels = document.querySelectorAll(".paper-table-filter-label");
+    let visibleCount = 0;
+
+    filterLabels.forEach(label => {
+      const filterValue = label.getAttribute("data-filter-value") || "";
+      if (filterValue.includes(searchTerm)) {
+        label.style.display = "flex";
+        visibleCount++;
+      } else {
+        label.style.display = "none";
+      }
+    });
+
+    // Show "no results" message if nothing matches
+    let noResultsMsg = document.getElementById("filter-no-results");
+    if (visibleCount === 0 && !noResultsMsg) {
+      const listContainer = document.getElementById("filter-options-list");
+      listContainer.insertAdjacentHTML("beforeend", `
+        <div id="filter-no-results" class="paper-table-filter-empty">
+          <i class="fas fa-search"></i>
+          <p>No options match your search</p>
+        </div>
+      `);
+    } else if (visibleCount > 0 && noResultsMsg) {
+      noResultsMsg.remove();
+    }
+  }
+
+  // Select all filters for a column
+  selectAllFilters(column) {
+    const uniqueValues = this.getUniqueValues(column);
+    this.filters[column] = new Set(uniqueValues);
+    this.applyFilters();
+    this.showFilterPopup(column);
+  }
+
+  // Deselect all filters for a column
+  deselectAllFilters(column) {
+    this.filters[column] = new Set();
+    this.applyFilters();
+    this.showFilterPopup(column);
+  }
+
+  // Update the filter UI after a change
+  updateFilterUI(column) {
+    const currentFilters = this.filters[column] || new Set();
+    
+    // Update the active state of labels
+    const filterLabels = document.querySelectorAll(".paper-table-filter-label");
+    filterLabels.forEach(label => {
+      const checkbox = label.querySelector("input[type=\"checkbox\"]");
+      if (checkbox && checkbox.checked) {
+        label.classList.add("is-active");
+      } else {
+        label.classList.remove("is-active");
+      }
+    });
+
+    // Update the count in footer
+    const countElement = document.getElementById("filter-selected-count");
+    if (countElement) {
+      countElement.innerHTML = `<strong>${currentFilters.size}</strong> filter${currentFilters.size !== 1 ? "s" : ""} selected`;
+    }
+  }
+
   // Clear all filters
   clearFilters() {
     this.filters = {};
@@ -399,7 +470,7 @@ class PaperTable {
           <div class="level mb-2">
             <div class="level-left">
               <div class="level-item">
-                <span class="is-size-7 has-text-weight-semibold" ${columnDisplayName === "Method" ? "style='min-width: 10rem'" : ""}>${columnDisplayName}</span>
+                <span class="is-size-7 has-text-weight-semibold ${columnDisplayName === "Method" ? "paper-table-method-header" : ""}">${columnDisplayName}</span>
               </div>
             </div>
             <div class="level-right">
@@ -483,7 +554,7 @@ class PaperTable {
             ? '<div>' + values.map((v, idx) => {
                 const origVal = originalValues[idx] || v;
                 const bgColor = this.colorMaps[column]?.[origVal] || "#E0E0E0";
-                return `<span class="tag" style="background-color: ${bgColor}; margin: 2px 4px 2px 0; display: inline-flex; align-items: center; border: 1px solid #ddd;">${v}</span>`;
+                return `<span class="tag paper-table-tag" style="background-color: ${bgColor};">${v}</span>`;
               }).join("") + '</div>'
             : "-";
           html += `<td class="is-size-6 has-text-left">${formattedValue}</td>`;
@@ -512,17 +583,40 @@ class PaperTable {
     const categoryMapping = this.getMappingCategory(column);
     const columnDisplayName = this.getColumnDisplayName(column);
     
+    // Start building popup HTML
     let html = `
-    <div class="modal is-active" id="filter-popup">
-    <div class="modal-background" onclick="paperTable.closeFilterPopup()"></div>
-    <div class="modal-card" style="max-height: 80vh;">
-    <header class="modal-card-head">
-    <p class="modal-card-title">Filter by ${columnDisplayName}</p>
-    <button class="delete" aria-label="close" onclick="paperTable.closeFilterPopup()"></button>
-    </header>
-    <section class="modal-card-body" style="max-height: 60vh; overflow-y: auto;">
-    <div class="content">
+      <div class="modal is-active" id="filter-popup">
+        <div class="modal-background" onclick="paperTable.closeFilterPopup()"></div>
+        <div class="modal-card paper-table-modal-card">
+          <header class="modal-card-head paper-table-modal-header">
+            <p class="modal-card-title">Filter by ${columnDisplayName}</p>
+            <button class="delete" aria-label="close" onclick="paperTable.closeFilterPopup()"></button>
+          </header>
+          <section class="modal-card-body paper-table-modal-body">
     `;
+
+    // Add search box
+    html += `
+      <div class="paper-table-filter-search">
+        <div class="field">
+          <div class="control has-icons-left">
+            <input 
+              class="input" 
+              type="text" 
+              placeholder="Search options..." 
+              id="filter-search-input"
+              oninput="paperTable.filterSearchResults()"
+            >
+            <span class="icon is-left">
+              <i class="fas fa-search"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Start filter options list
+    html += '<div id="filter-options-list">';
 
     // Add checkboxes for each unique value
     uniqueValues.forEach(value => {
@@ -532,13 +626,13 @@ class PaperTable {
         : value;
 
       html += `
-        <label class="checkbox is-block p-2" style="cursor: pointer;">
+        <label class="paper-table-filter-label ${isChecked ? "is-active" : ""}" data-filter-value="${displayValue.toLowerCase()}">
           <input 
             type="checkbox" 
             ${isChecked ? "checked" : ""}
-            onchange="paperTable.toggleFilter('${column}', '${value.replace(/'/g, "\\'")}');"
+            onchange="paperTable.toggleFilter('${column}', '${value.replace(/'/g, "\\'").replace(/"/g, "&quot;")}'); paperTable.updateFilterUI('${column}');"
           >
-          <span class="ml-2 is-size-6">${displayValue}</span>
+          <span>${displayValue}</span>
         </label>
       `;
     });
@@ -546,6 +640,43 @@ class PaperTable {
     html += `
             </div>
           </section>
+          <footer class="modal-card-foot paper-table-modal-footer">
+            <div class="level is-mobile" style="width: 100%; margin: 0;">
+              <div class="level-left">
+                <div class="level-item">
+                  <span class="paper-table-selected-summary" id="filter-selected-count">
+                    <strong>${currentFilters.size}</strong> filter${currentFilters.size !== 1 ? "s" : ""} selected
+                  </span>
+                </div>
+              </div>
+              <div class="level-right">
+                <div class="level-item">
+                  <button class="button is-light" onclick="paperTable.selectAllFilters('${column}')">
+                    <span class="icon is-small">
+                      <i class="fas fa-check-square"></i>
+                    </span>
+                    <span>Select All</span>
+                  </button>
+                </div>
+                <div class="level-item">
+                  <button class="button is-light" onclick="paperTable.deselectAllFilters('${column}')">
+                    <span class="icon is-small">
+                      <i class="fas fa-square"></i>
+                    </span>
+                    <span>Clear</span>
+                  </button>
+                </div>
+                <div class="level-item">
+                  <button class="button is-primary" onclick="paperTable.closeFilterPopup()">
+                    <span class="icon is-small">
+                      <i class="fas fa-check"></i>
+                    </span>
+                    <span>Done</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </footer>
         </div>
       </div>
     `;

@@ -27,6 +27,7 @@
   <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="stylesheet" href="./static/css/paper-table.css">
   <!-- <link rel="icon" href="./static/images/favicon.svg"> -->
 
   <style>
@@ -238,16 +239,17 @@
 
   <!-- Paper List -->
   <section class="section" id="paper-list">
-    <div class="container" style="max-width: min-content;">
+    <!-- Text content with standard width -->
+    <div class="container is-max-desktop">
       <div class="columns is-centered">
-        <div class="column is-full">
-          <div class="content has-text-justified">
+        <div class="column is-full-width is-large">
+          <div class="column has-text-centered">
 
             <div class="center-container">
               <h3 class="title is-3">Paper List</h3>
             </div>
 
-            <p class="mb-4">
+            <div class="content has-text-justified mt-4">
               <p>
                 This interactive table catalogs papers on compositional 3D indoor scene generation.
                 Sort by any column via its icon and refine results with the filter controls.
@@ -255,7 +257,18 @@
               <p>
                 Spot an issue? Please let us know by opening an issue at our <a href="https://github.com/3dlg-hcvc/Comp3DSceneGen/issues">GitHub repo</a>.
               </p>
-            </p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table with full width -->
+    <div class="container" style="max-width: min-content;">
+      <div class="columns is-centered">
+        <div class="column is-full">
+          <div class="content">
 
             <div id="paper-table-container">
               <!-- Table will be dynamically generated here -->
