@@ -275,7 +275,7 @@
     "LLM": {
       "command": "\\generationllm",
       "path": "_common_llm.png",
-      "legend": "LLM/VLM"
+      "legend": "LLM"
     },
     "Human": {
       "command": "\\generationhuman",
@@ -295,7 +295,7 @@
     "VLM": {
       "command": "\\generationvlm",
       "path": "_common_llm.png",
-      "legend": "LLM/VLM"
+      "legend": "VLM"
     }
   },
   "generation_extra": {
