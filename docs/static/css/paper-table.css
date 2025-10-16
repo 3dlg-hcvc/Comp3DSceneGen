@@ -5,6 +5,21 @@
   min-width: 10rem;
 }
 
+/* Button alignment fixes */
+.button .icon.is-small {
+  height: 1em;
+  width: 1em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Colored badge/tag styling */
 .paper-table-tag {
   margin: 2px 4px 2px 0;

@@ -7,9 +7,12 @@ class PaperTable {
     this.filters = {};            // Active filters
     this.iconMappings = null;     // Icon mappings for legend from JSON
     this.colorMaps = {};          // Color mappings for each column's values
-    this.columnWidths = null;     // Fixed column widths to prevent shrinking
+    this.columnWidthsNormal = null;   // Column widths for normal text size
+    this.columnWidthsEnlarged = null; // Column widths for enlarged text size
     this.isExpanded = false;      // Whether table is expanded or collapsed
     this.collapsedRowCount = 10;  // Number of rows to show when collapsed
+    this.scrollPosition = 0;      // Horizontal scroll position to preserve across re-renders
+    this.isEnlarged = false;      // Whether text is enlarged
   }
 
   // ======================================================================================== Initialization
@@ -33,18 +36,25 @@ class PaperTable {
       // Generate color mappings for each column
       this.generateColorMaps();
 
-      // Temporarily expand table to capture full column widths
+      // Capture column widths for both normal and enlarged states
       this.isExpanded = true;
-      this.renderTable();
       
-      // Wait for render to complete before capturing widths
-      setTimeout(() => {
-        this.captureColumnWidths();
-        
-        // Now collapse it for the initial view
-        this.isExpanded = false;
-        this.renderTable();
-      }, 0);
+      // First, capture widths at normal size
+      this.isEnlarged = false;
+      this.renderTable();
+      await new Promise(resolve => setTimeout(resolve, 0)); // Yield a tick to ensure DOM is updated
+      this.captureColumnWidths(false);
+      
+      // Then, capture widths at enlarged size
+      this.isEnlarged = true;
+      this.renderTable();
+      await new Promise(resolve => setTimeout(resolve, 0)); // Yield a tick to ensure DOM is updated
+      this.captureColumnWidths(true);
+      
+      // Now collapse and set to normal size for the initial view
+      this.isExpanded = false;
+      this.isEnlarged = false;
+      this.renderTable();
       
       this.setupEventListeners();
     } catch (error) {
@@ -462,16 +472,35 @@ class PaperTable {
     this.renderTable();
   }
 
+  // Toggle text size
+  toggleTextSize() {
+    this.isEnlarged = !this.isEnlarged;
+    this.renderTable();
+  }
+
   // ======================================================================================== HTML Rendering
 
   // Capture the initial column widths to prevent shrinking
-  captureColumnWidths() {
+  // Capture column widths for a specific text size state
+  captureColumnWidths(isEnlarged) {
     const table = document.querySelector("#paper-table-container table");
-    if (table && !this.columnWidths) {
-      const headers = table.querySelectorAll("thead th");
-      this.columnWidths = Array.from(headers).map(th => th.offsetWidth);
-      console.log("Captured column widths:", this.columnWidths);
+    if (!table) return;
+    
+    const headers = table.querySelectorAll("thead th");
+    const widths = Array.from(headers).map(th => th.offsetWidth);
+    
+    if (isEnlarged) {
+      this.columnWidthsEnlarged = widths.map(width => width * 1.025);
+      console.log("Captured enlarged column widths:", widths);
+    } else {
+      this.columnWidthsNormal = widths.map(width => width * 1.025);
+      console.log("Captured normal column widths:", widths);
     }
+  }
+  
+  // Get the appropriate column widths for the current state
+  getColumnWidths() {
+    return this.isEnlarged ? this.columnWidthsEnlarged : this.columnWidthsNormal;
   }
 
   // ----------------------------------------------------------------------------------- Main Table Rendering
@@ -479,6 +508,12 @@ class PaperTable {
   renderTable() {
     const container = document.getElementById("paper-table-container");
     if (!container) return;
+    
+    // Capture current scroll position before re-rendering
+    const tableContainer = container.querySelector(".table-container");
+    if (tableContainer) {
+      this.scrollPosition = tableContainer.scrollLeft;
+    }
     
     // The columns to display in the table
     const displayColumns = [
@@ -514,6 +549,14 @@ class PaperTable {
           </div>
           <div class="level-right">
             <div class="level-item">
+              <button onclick="paperTable.toggleTextSize()" class="button is-small is-info ${this.isEnlarged ? '' : 'is-outlined'}" title="${this.isEnlarged ? 'Click to use normal text size' : 'Click to enlarge text'}">
+                <span class="icon is-small ml-2 pr-2">
+                  <i class="fas fa-text-height"></i>
+                </span>
+                <span>Bigger Text</span>
+              </button>
+            </div>
+            <div class="level-item">
               <button onclick="paperTable.clearFilters()" class="button is-small is-danger is-outlined"> Clear All Filters </button>
             </div>
           </div>
@@ -541,8 +584,9 @@ class PaperTable {
       const columnDisplayName = this.getColumnDisplayName(column);
       
       // Apply fixed width if we have it captured
-      const widthStyle = this.columnWidths && this.columnWidths[index] 
-        ? ` style="min-width: ${this.columnWidths[index]}px; width: ${this.columnWidths[index]}px;"` 
+      const columnWidths = this.getColumnWidths();
+      const widthStyle = columnWidths && columnWidths[index] 
+        ? ` style="min-width: ${columnWidths[index]}px; width: ${columnWidths[index]}px;"` 
         : '';
       
       html += `
@@ -550,7 +594,7 @@ class PaperTable {
           <div class="level mb-2">
             <div class="level-left">
               <div class="level-item">
-                <span class="is-size-7 has-text-weight-semibold ${columnDisplayName === "Method" ? "paper-table-method-header" : ""}">${columnDisplayName}</span>
+                <span class="is-size-6 has-text-weight-semibold ${columnDisplayName === "Method" ? "paper-table-method-header" : ""}">${columnDisplayName}</span>
               </div>
             </div>
             <div class="level-right">
@@ -614,8 +658,9 @@ class PaperTable {
         const processedValues = Array.from(processedMap.values());
         
         // Apply fixed width if we have it captured
-        const widthStyle = this.columnWidths && this.columnWidths[colIndex] 
-          ? ` style="min-width: ${this.columnWidths[colIndex]}px; width: ${this.columnWidths[colIndex]}px;"` 
+        const columnWidths = this.getColumnWidths();
+        const widthStyle = columnWidths && columnWidths[colIndex] 
+          ? ` style="min-width: ${columnWidths[colIndex]}px; width: ${columnWidths[colIndex]}px;"` 
           : '';
         
         // Special handling for Method and Year columns (no badges)
@@ -639,13 +684,14 @@ class PaperTable {
         } else {
           // Use colored badges for all other columns
           // Use replaced value for color lookup, legend value for display
+          const tagSize = this.isEnlarged ? "is-size-6" : "is-size-7";
           const formattedValue = processedValues.length > 0 
             ? '<div>' + processedValues.map(pv => {
                 const bgColor = this.colorMaps[column]?.[pv.replaced] || "#E0E0E0";
-                return `<span class="tag paper-table-tag" style="background-color: ${bgColor};">${pv.legend}</span>`;
+                return `<span class="tag ${tagSize} paper-table-tag" style="background-color: ${bgColor};">${pv.legend}</span>`;
               }).join("") + '</div>'
             : "-";
-          html += `<td class="is-size-6 has-text-left"${widthStyle}>${formattedValue}</td>`;
+          html += `<td class="has-text-left"${widthStyle}>${formattedValue}</td>`;
         }
       });
 
@@ -698,6 +744,12 @@ class PaperTable {
 
     // Put the HTML into the container
     container.innerHTML = html;
+    
+    // Restore scroll position after re-render
+    const newTableContainer = container.querySelector(".table-container");
+    if (newTableContainer && this.scrollPosition > 0) {
+      newTableContainer.scrollLeft = this.scrollPosition;
+    }
   }
 
   // ----------------------------------------------------------------------------------- Filter Popup Rendering
