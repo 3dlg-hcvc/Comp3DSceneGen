@@ -27,6 +27,4 @@ If you find this work helpful in your research, please cite our work:
 ```
 
 ## Acknowledgements
-?
-<!-- This work was funded in part by the Sony Research Award Program, a CIFAR AI Chair, a Canada Research Chair, NSERC Discovery Grants, and enabled by support from the [Digital Research Alliance of Canada](https://alliancecan.ca/).
-We thank Nao Yamato, Yotaro Shimose, and other members on the Sony team for their feedback. -->
+This work was funded in part by the Sony Research Award Program, a CIFAR AI Chair, a Canada Research Chair, NSERC Discovery Grants, and enabled by support from the [Digital Research Alliance of Canada](https://alliancecan.ca/).
