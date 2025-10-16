@@ -9,7 +9,7 @@
 [Angel X. Chang<sup>1,2</sup>](https://angelxuanchang.github.io/),
 [Manolis Savva<sup>1</sup>](https://msavva.github.io/)
 
-<sup>1</sup> Simon Fraser University&nbsp;&nbsp;<sup>2</sup> Canada-CIFAR AI Chair, Amii
+<sup>1</sup>Simon Fraser University&nbsp;&nbsp;<sup>2</sup>Canada-CIFAR AI Chair, Amii
 
 ## Paper List
 For the full list of papers, please visit our [project page](https://3dlg-hcvc.github.io/scenegenstar/), where you can filter by various criteria.
