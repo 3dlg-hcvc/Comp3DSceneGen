@@ -8,6 +8,8 @@ class PaperTable {
     this.iconMappings = null;     // Icon mappings for legend from JSON
     this.colorMaps = {};          // Color mappings for each column's values
     this.columnWidths = null;     // Fixed column widths to prevent shrinking
+    this.isExpanded = false;      // Whether table is expanded or collapsed
+    this.collapsedRowCount = 10;  // Number of rows to show when collapsed
   }
 
   // ======================================================================================== Initialization
@@ -31,11 +33,20 @@ class PaperTable {
       // Generate color mappings for each column
       this.generateColorMaps();
 
+      // Temporarily expand table to capture full column widths
+      this.isExpanded = true;
       this.renderTable();
-      this.setupEventListeners();
       
-      // Capture initial column widths to prevent shrinking when filtered
-      this.captureColumnWidths();
+      // Wait for render to complete before capturing widths
+      setTimeout(() => {
+        this.captureColumnWidths();
+        
+        // Now collapse it for the initial view
+        this.isExpanded = false;
+        this.renderTable();
+      }, 0);
+      
+      this.setupEventListeners();
     } catch (error) {
       console.error("Error initializing paper table:", error);
     }
@@ -445,18 +456,21 @@ class PaperTable {
     this.applyFilters();
   }
 
+  // Toggle table expansion
+  toggleExpansion() {
+    this.isExpanded = !this.isExpanded;
+    this.renderTable();
+  }
+
   // ======================================================================================== HTML Rendering
 
   // Capture the initial column widths to prevent shrinking
   captureColumnWidths() {
     const table = document.querySelector("#paper-table-container table");
     if (table && !this.columnWidths) {
-      // Wait for next frame to ensure table is fully rendered
-      requestAnimationFrame(() => {
-        const headers = table.querySelectorAll("thead th");
-        this.columnWidths = Array.from(headers).map(th => th.offsetWidth);
-        console.log("Captured column widths:", this.columnWidths);
-      });
+      const headers = table.querySelectorAll("thead th");
+      this.columnWidths = Array.from(headers).map(th => th.offsetWidth);
+      console.log("Captured column widths:", this.columnWidths);
     }
   }
 
@@ -481,6 +495,11 @@ class PaperTable {
       "Retrieval Extra"
     ];
 
+    // Determine how many rows to show
+    const totalRows = this.filteredPapers.length;
+    const showRows = this.isExpanded ? totalRows : Math.min(this.collapsedRowCount, totalRows);
+    const hasMoreRows = totalRows > this.collapsedRowCount;
+
     // Start with a status header and clear filters button (outside the scrollable container)
     let html = `
       <div class="box">
@@ -488,7 +507,8 @@ class PaperTable {
           <div class="level-left">
             <div class="level-item">
               <p class="is-size-7 has-text-grey">
-                Showing ${this.filteredPapers.length} of ${this.papers.length} papers
+                Showing ${showRows} of ${totalRows} papers
+                ${totalRows !== this.papers.length ? ` (${this.papers.length} total)` : ''}
               </p>
             </div>
           </div>
@@ -560,7 +580,7 @@ class PaperTable {
     html += "</tr></thead><tbody>";
 
     // ------------ Table rows
-    this.filteredPapers.forEach((paper, index) => {
+    this.filteredPapers.slice(0, showRows).forEach((paper, index) => {
       html += `<tr>`;
 
       displayColumns.forEach((column, colIndex) => {
@@ -632,8 +652,49 @@ class PaperTable {
       html += "</tr>";
     });
 
-    // End table and close both the table-container and box divs
-    html += "</tbody></table></div></div>";
+    // End table
+    html += "</tbody></table></div>";
+
+    // Close the box div
+    html += "</div>";
+
+    // Add expand/collapse gradient overlay if there are more rows than the collapsed count
+    // Place outside the scrollable container
+    if (hasMoreRows && !this.isExpanded) {
+      const hiddenCount = totalRows - this.collapsedRowCount;
+      html += `
+        <div class="paper-table-gradient-overlay-wrapper">
+          <div class="paper-table-gradient-overlay">
+            <button onclick="paperTable.toggleExpansion()" class="paper-table-expand-btn">
+              <span class="icon">
+                <i class="fas fa-chevron-down"></i>
+              </span>
+              <span>Show ${hiddenCount} More Paper${hiddenCount !== 1 ? 's' : ''}</span>
+              <span class="icon">
+                <i class="fas fa-chevron-down"></i>
+              </span>
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    // Add collapse button outside the table container if expanded
+    if (hasMoreRows && this.isExpanded) {
+      html += `
+        <div class="paper-table-collapse-container">
+          <button onclick="paperTable.toggleExpansion()" class="paper-table-collapse-btn">
+            <span class="icon">
+              <i class="fas fa-chevron-up"></i>
+            </span>
+            <span>Show Less</span>
+            <span class="icon">
+              <i class="fas fa-chevron-up"></i>
+            </span>
+          </button>
+        </div>
+      `;
+    }
 
     // Put the HTML into the container
     container.innerHTML = html;
