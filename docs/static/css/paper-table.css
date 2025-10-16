@@ -22,7 +22,7 @@
 }
 
 .paper-table-modal-body {
-  max-height: calc(85vh - 200px);
+  height: calc(85vh - 200px);
   overflow-y: auto;
   padding: 0;
 }

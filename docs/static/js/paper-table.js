@@ -7,6 +7,7 @@ class PaperTable {
     this.filters = {};            // Active filters
     this.iconMappings = null;     // Icon mappings for legend from JSON
     this.colorMaps = {};          // Color mappings for each column's values
+    this.columnWidths = null;     // Fixed column widths to prevent shrinking
   }
 
   // ======================================================================================== Initialization
@@ -32,6 +33,9 @@ class PaperTable {
 
       this.renderTable();
       this.setupEventListeners();
+      
+      // Capture initial column widths to prevent shrinking when filtered
+      this.captureColumnWidths();
     } catch (error) {
       console.error("Error initializing paper table:", error);
     }
@@ -129,6 +133,16 @@ class PaperTable {
 
   // ======================================================================================= Getters and Mappings
 
+  // Check if a value should be displayed for a given column and paper
+  shouldDisplayValue(column, paper) {
+    // Only show Generation Extra values if Group is "Deep" or "Stats"
+    if (column === "Generation Extra") {
+      const group = paper["Group"] || "";
+      return group === "Deep" || group === "Stats";
+    }
+    return true;
+  }
+
   // Get mapping category from csv column name to the name used in JSON
   getMappingCategory(column) {
     const mappingCategories = {
@@ -143,6 +157,21 @@ class PaperTable {
     };
     
     return mappingCategories[column];
+  }
+
+  // Apply _replace mapping to a value if it exists in the JSON
+  applyReplacementMapping(category, value) {
+    if (!value || !category || !this.iconMappings) {
+      return value;
+    }
+
+    const categoryMappings = this.iconMappings[category];
+    if (!categoryMappings || !categoryMappings._replace) {
+      return value;
+    }
+
+    const replaceMap = categoryMappings._replace;
+    return replaceMap[value] || value;
   }
 
   // Get display name for a column
@@ -184,16 +213,13 @@ class PaperTable {
     if (!categoryMappings) {
       return value;
     }
-
-    // Get the replacement mapping for this category
-    const replaceMap = categoryMappings._replace || {};
     
     // Split by comma and map each value
     const values = value.split(",").map(v => v.trim());
     const legendValues = values.map(v => {
-      const mappedValue = replaceMap[v] || v;         // First apply any replacements
-      const mapping = categoryMappings[mappedValue];  // Then get the final mapping
-      return mapping ? mapping.legend : v;            // Fallback to original if no mapping
+      const mappedValue = this.applyReplacementMapping(category, v);  // Apply replacements using helper
+      const mapping = categoryMappings[mappedValue];                  // Then get the final mapping
+      return mapping ? mapping.legend : v;                            // Fallback to original if no mapping
     });
 
     return legendValues.join(", ");
@@ -202,16 +228,26 @@ class PaperTable {
   // Get unique values for a column, used for filter options
   getUniqueValues(column) {
     const valuesSet = new Set();
+    const mappingCategory = this.getMappingCategory(column);
     
     // Go through all papers and collect unique values for the column
     this.papers.forEach(paper => {
+      // Skip if this value shouldn't be displayed for this paper
+      if (!this.shouldDisplayValue(column, paper)) {
+        return;
+      }
+      
       const value = paper[column];
       if (value) {
         // Split by comma for multi-value fields
         const values = value.split(",").map(v => v.trim());
         values.forEach(v => {
           if (v && v !== "N/A") {
-            valuesSet.add(v);
+            // Apply replacement mapping if available
+            const replacedValue = mappingCategory 
+              ? this.applyReplacementMapping(mappingCategory, v)
+              : v;
+            valuesSet.add(replacedValue);
           }
         });
       }
@@ -236,8 +272,14 @@ class PaperTable {
         const paperValue = paper[column] || "";
         const paperValues = paperValue.split(",").map(v => v.trim());
         
-        // Check if any of the paper's values match any of the filter values
-        const hasMatch = paperValues.some(pv => filterValues.has(pv));
+        // Get mapping category and apply replacement mappings
+        const mappingCategory = this.getMappingCategory(column);
+        const replacedPaperValues = mappingCategory
+          ? paperValues.map(v => this.applyReplacementMapping(mappingCategory, v))
+          : paperValues;
+        
+        // Check if any of the paper's replaced values match any of the filter values
+        const hasMatch = replacedPaperValues.some(pv => filterValues.has(pv));
 
         // If at least one filter does not match, no need to check further
         if (!hasMatch) {
@@ -405,6 +447,19 @@ class PaperTable {
 
   // ======================================================================================== HTML Rendering
 
+  // Capture the initial column widths to prevent shrinking
+  captureColumnWidths() {
+    const table = document.querySelector("#paper-table-container table");
+    if (table && !this.columnWidths) {
+      // Wait for next frame to ensure table is fully rendered
+      requestAnimationFrame(() => {
+        const headers = table.querySelectorAll("thead th");
+        this.columnWidths = Array.from(headers).map(th => th.offsetWidth);
+        console.log("Captured column widths:", this.columnWidths);
+      });
+    }
+  }
+
   // ----------------------------------------------------------------------------------- Main Table Rendering
 
   renderTable() {
@@ -439,7 +494,7 @@ class PaperTable {
           </div>
           <div class="level-right">
             <div class="level-item">
-              <button onclick="paperTable.clearFilters()" class="button is-small is-grey"> Clear All Filters </button>
+              <button onclick="paperTable.clearFilters()" class="button is-small is-danger is-outlined"> Clear All Filters </button>
             </div>
           </div>
         </div>
@@ -454,7 +509,7 @@ class PaperTable {
     `;
 
     // ------------ Table headers
-    displayColumns.forEach(column => {
+    displayColumns.forEach((column, index) => {
 
       // Determine sort icon to show
       const isSorted = this.sortColumn === column;
@@ -465,8 +520,13 @@ class PaperTable {
       // Get display name for column
       const columnDisplayName = this.getColumnDisplayName(column);
       
+      // Apply fixed width if we have it captured
+      const widthStyle = this.columnWidths && this.columnWidths[index] 
+        ? ` style="min-width: ${this.columnWidths[index]}px; width: ${this.columnWidths[index]}px;"` 
+        : '';
+      
       html += `
-        <th>
+        <th${widthStyle}>
           <div class="level mb-2">
             <div class="level-left">
               <div class="level-item">
@@ -503,38 +563,46 @@ class PaperTable {
     this.filteredPapers.forEach((paper, index) => {
       html += `<tr>`;
 
-      displayColumns.forEach(column => {
-        let value = paper[column] || "";
+      displayColumns.forEach((column, colIndex) => {
+        // Get the value, or empty string if it shouldn't be displayed
+        let value = this.shouldDisplayValue(column, paper) ? (paper[column] || "") : "";
         
-        // Only show Generation Extra values if Group is "Deep" or "Stats"
-        if (column === "Generation Extra") {
-          const group = paper["Group"] || "";
-          if (group !== "Deep" && group !== "Stats") {
-            value = "";
-          }
-        }
-        
-        // Store original value for color lookup
-        const originalValue = value;
-        
-        // Map values to legends for specific columns
+        // Get mapping category for this column
         const mappingCategory = this.getMappingCategory(column);
-
-        if (mappingCategory) {
-          value = this.getLegendValue(mappingCategory, value);
-        }
-
-        // Split comma-separated values for display
-        const values = value.split(", ").map(v => v.trim()).filter(v => v && v !== "N/A" && v !== "Unknown");
         
-        // Split original values for color lookup
-        const originalValues = originalValue.split(",").map(v => v.trim()).filter(v => v && v !== "N/A" && v !== "Unknown");
+        // Split raw CSV values and filter out empty/N/A/Unknown
+        const rawValues = value.split(",").map(v => v.trim()).filter(v => v && v !== "N/A" && v !== "Unknown");
+        
+        // Process each raw value to get both replaced value (for color) and legend (for display)
+        // Use a Map to deduplicate by replaced value (e.g., ObjectCategories & ObjectList -> ObjectInfo)
+        const processedMap = new Map();
+        rawValues.forEach(rawVal => {
+          const replacedVal = mappingCategory 
+            ? this.applyReplacementMapping(mappingCategory, rawVal)
+            : rawVal;
+          
+          // Only add if we haven't seen this replaced value yet (deduplication)
+          if (!processedMap.has(replacedVal)) {
+            const categoryMappings = mappingCategory && this.iconMappings?.[mappingCategory];
+            const legendVal = categoryMappings?.[replacedVal]?.legend || rawVal;
+            
+            processedMap.set(replacedVal, { replaced: replacedVal, legend: legendVal });
+          }
+        });
+        
+        // Convert map to array of values
+        const processedValues = Array.from(processedMap.values());
+        
+        // Apply fixed width if we have it captured
+        const widthStyle = this.columnWidths && this.columnWidths[colIndex] 
+          ? ` style="min-width: ${this.columnWidths[colIndex]}px; width: ${this.columnWidths[colIndex]}px;"` 
+          : '';
         
         // Special handling for Method and Year columns (no badges)
         if (column === "Method") {
-          const formattedValue = values.length > 0 ? values[0] : "-";
+          const formattedValue = processedValues.length > 0 ? processedValues[0].legend : "-";
           html += `
-            <td class="is-size-6 has-text-left">
+            <td class="is-size-6 has-text-left"${widthStyle}>
               <a href="https://scholar.google.com/scholar?q=${encodeURIComponent(formattedValue)}" 
                  target="_blank" 
                  class="has-text-link"
@@ -545,19 +613,19 @@ class PaperTable {
           `;
 
         } else if (column === "Year") {
-          const formattedValue = values.length > 0 ? values[0] : "-";
-          html += `<td class="is-size-6 has-text-left">${formattedValue}</td>`;
+          const formattedValue = processedValues.length > 0 ? processedValues[0].legend : "-";
+          html += `<td class="is-size-6 has-text-left"${widthStyle}>${formattedValue}</td>`;
 
         } else {
-          // Use colored badges for all other columns (both single and multiple values)
-          const formattedValue = values.length > 0 
-            ? '<div>' + values.map((v, idx) => {
-                const origVal = originalValues[idx] || v;
-                const bgColor = this.colorMaps[column]?.[origVal] || "#E0E0E0";
-                return `<span class="tag paper-table-tag" style="background-color: ${bgColor};">${v}</span>`;
+          // Use colored badges for all other columns
+          // Use replaced value for color lookup, legend value for display
+          const formattedValue = processedValues.length > 0 
+            ? '<div>' + processedValues.map(pv => {
+                const bgColor = this.colorMaps[column]?.[pv.replaced] || "#E0E0E0";
+                return `<span class="tag paper-table-tag" style="background-color: ${bgColor};">${pv.legend}</span>`;
               }).join("") + '</div>'
             : "-";
-          html += `<td class="is-size-6 has-text-left">${formattedValue}</td>`;
+          html += `<td class="is-size-6 has-text-left"${widthStyle}>${formattedValue}</td>`;
         }
       });
 
