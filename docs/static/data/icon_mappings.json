@@ -204,7 +204,6 @@
     }
   },
   "knowledge_base": {
-    "_replace": {},
     "Human": {
       "command": "\\knowledgehuman",
       "path": "_common_human.png",
@@ -223,7 +222,7 @@
     "LLM": {
       "command": "\\knowledgellm",
       "path": "_common_llm.png",
-      "legend": "LLM/VLM"
+      "legend": "LLM"
     },
     "ImageGen": {
       "command": "\\knowledgeimagegen",
@@ -238,7 +237,7 @@
     "VLM": {
       "command": "\\knowledgevlm",
       "path": "_common_llm.png",
-      "legend": "LLM/VLM"
+      "legend": "VLM"
     },
     "3DObject": {
       "command": "\\knowledgethreedobject",

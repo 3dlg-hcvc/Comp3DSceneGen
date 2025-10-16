@@ -29,8 +29,12 @@
   <link rel="stylesheet" href="./static/css/index.css">
   <!-- <link rel="icon" href="./static/images/favicon.svg"> -->
 
-  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+
   <script defer src="./static/js/fontawesome.all.min.js"></script>
   <script src="./static/js/bulma-carousel.min.js"></script>
   <script src="./static/js/bulma-slider.min.js"></script>
@@ -96,11 +100,19 @@
                   </a>
                 </span> -->
                 <span class="link-block">
-                  <a href="https://arxiv.org/abs/2503.14756" class="external-link button is-normal is-rounded is-dark">
+                  <a href="" class="external-link button is-normal is-rounded is-dark">
                     <span class="icon">
                       <i class="ai ai-arxiv"></i>
                     </span>
                     <span>arXiv</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="#paper-list" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-list"></i>
+                    </span>
+                    <span>Paper List</span>
                   </a>
                 </span>
                 <!-- Video Link. -->
@@ -225,24 +237,33 @@
   </section>  
 
   <!-- Paper List -->
-  <section class="section">
-    <div class="container is-max-desktop">
+  <section class="section" id="paper-list">
+    <div class="container" style="max-width: min-content;">
       <div class="columns is-centered">
-        <div class="column is-full-width">
+        <div class="column is-full">
           <div class="content has-text-justified">
+
             <div class="center-container">
               <h3 class="title is-3">Paper List</h3>
             </div>
+
             <p class="mb-4">
-              Below is an interactive table of papers on compositional 3D indoor scene generation. 
-              You can sort by any column by clicking the sort icon, and filter papers by clicking the "Filter" button in each column header.
+              <p>
+                This interactive table catalogs papers on compositional 3D indoor scene generation.
+                Sort by any column via its icon and refine results with the filter controls.
+              </p>
+              <p>
+                Spot an issue? Please let us know by opening an issue at our <a href="https://github.com/3dlg-hcvc/Comp3DSceneGen/issues">GitHub repo</a>.
+              </p>
             </p>
+
             <div id="paper-table-container">
               <!-- Table will be dynamically generated here -->
               <div class="has-text-centered">
                 <p>Loading papers...</p>
               </div>
             </div>
+            
           </div>
         </div> 
       </div>  
@@ -268,10 +289,7 @@
     <div class="container is-max-desktop content">
       <h2 class="title">Acknowledgements</h2>
       <p>
-        ?
-        <!-- This work was funded in part by the Sony Research Award Program, a CIFAR AI Chair, a Canada Research Chair, NSERC Discovery Grants, and enabled by support from the <a href="https://alliancecan.ca/">Digital Research Alliance of Canada</a>.
-        We thank Nao Yamato, Yotaro Shimose, and other members on the Sony team for their feedback.
-        We also thank Qirui Wu, Xiaohao Sun, and Han-Hung Lee for helpful discussions. -->
+        This work was funded in part by the Sony Research Award Program, a CIFAR AI Chair, a Canada Research Chair, NSERC Discovery Grants, and enabled by support from the <a href="https://alliancecan.ca/">Digital Research Alliance of Canada</a>.
       </p>
     </div>
   </section>
