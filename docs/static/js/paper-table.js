@@ -167,6 +167,7 @@ class PaperTable {
   // Get mapping category from csv column name to the name used in JSON
   getMappingCategory(column) {
     const mappingCategories = {
+      "Group": "group",
       "Input Conditioning": "input_conditioning",
       "Scene Representation": "scene_representation",
       "Knowledge Base": "knowledge_base",

@@ -2,6 +2,34 @@
   "_config": {
     "icon_base_path": "fig/icons/"
   },
+  "group": {
+    "_replace": {},
+    "Rules": {
+      "command": "",
+      "path": "",
+      "legend": "Rule-based"
+    },
+    "Stats": {
+      "command": "",
+      "path": "",
+      "legend": "Statistical Learning"
+    },
+    "Deep": {
+      "command": "",
+      "path": "",
+      "legend": "Deep Learning"
+    },
+    "LLM": {
+      "command": "",
+      "path": "",
+      "legend": "LLM/VLM-based"
+    },
+    "Image": {
+      "command": "",
+      "path": "",
+      "legend": "Vision-based"
+    }
+  },
   "input_conditioning": {
     "_replace": {
       "ObjectCategories": "ObjectInfo",
