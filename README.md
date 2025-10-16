@@ -11,8 +11,20 @@
 
 <sup>1</sup>Simon Fraser University&nbsp;&nbsp;<sup>2</sup>Canada-CIFAR AI Chair, Amii
 
+[Page](https://3dlg-hcvc.github.io/Comp3DSceneGen/) | [Paper]()
+
+## Abstract
+
+Compositional 3D indoor scene generation is a long-standing problem and a rapidly evolving area of research spanning computer graphics, 3D computer vision, and machine learning.
+The goal is to model the complex relationships among objects and their spatial and functional arrangements within a scene, enabling the creation of rich, diverse, and useful 3D environments for a wide range of applications.
+This survey offers a comprehensive overview of the state of the art, formulating a unifying framework for analyzing scene generation systems and systematically categorizing existing methods according to their approaches to key components.
+We review recent progress, analyze the strengths and limitations of different paradigms, and highlight both major advances and open challenges.
+Our survey aims to serve as a resource for researchers and practitioners, offering insights into the current landscape and inspiring new ideas for future work in this area.
+
 ## Paper List
-For the full list of papers, please visit our [project page](https://3dlg-hcvc.github.io/scenegenstar/), where you can filter by various criteria.
+### [Check out our project page for an interactive table of papers!](https://3dlg-hcvc.github.io/Comp3DSceneGen/)
+
+![Project Page Screenshot](docs/static/images/table_screenshot.png)
 
 ## Citation
 If you find this work helpful in your research, please cite our work:
@@ -27,4 +39,4 @@ If you find this work helpful in your research, please cite our work:
 ```
 
 ## Acknowledgements
-This work was funded in part by the Sony Research Award Program, a CIFAR AI Chair, a Canada Research Chair, NSERC Discovery Grants, and enabled by support from the [Digital Research Alliance of Canada](https://alliancecan.ca/).
+This work was funded in part by a CIFAR AI Chair, a Canada Research Chair, and NSERC Discovery Grants.
