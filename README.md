@@ -11,7 +11,7 @@
 
 <sup>1</sup>Simon Fraser University&nbsp;&nbsp;<sup>2</sup>Canada-CIFAR AI Chair, Amii
 
-[Page](https://3dlg-hcvc.github.io/Comp3DSceneGen/) | [Paper]()
+[Page](https://3dlg-hcvc.github.io/Comp3DSceneGen/) | [Paper](https://drive.google.com/file/d/1Uxj1ukauVqmImn_u9d_jlL6npf8TSDel/view?usp=sharing)
 
 ## Abstract
 
