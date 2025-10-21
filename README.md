@@ -33,8 +33,6 @@ If you find this work helpful in your research, please cite our work:
     title = {Survey on Compositional {3D} Indoor Scene Generation},
     author = {Tam, Hou In Ivan and Pun, Hou In Derek and Wang, Austin T. and Sun, Xiaohao and Wu, Qirui and Lee, Han-Hung and Chang, Angel X. and Savva, Manolis},
     year = {2025},
-    eprint = {????.?????},
-    archivePrefix = {arXiv}
 }
 ```
 
