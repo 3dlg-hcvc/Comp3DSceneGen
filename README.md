@@ -21,6 +21,8 @@ This survey offers a comprehensive overview of the state of the art, formulating
 We review recent progress, analyze the strengths and limitations of different paradigms, and highlight both major advances and open challenges.
 Our survey aims to serve as a resource for researchers and practitioners, offering insights into the current landscape and inspiring new ideas for future work in this area.
 
+![Implementation Choices for Blueprint](docs/static/images/blueprint_choices.png)
+
 ## Paper List
 ### [Check out our project page for an interactive table of papers!](https://3dlg-hcvc.github.io/Comp3DSceneGen/)
 
